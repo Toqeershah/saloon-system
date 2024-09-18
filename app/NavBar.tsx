@@ -1,9 +1,16 @@
+'use client'
+import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { GiSaloon } from "react-icons/gi";
 
 const NavBar = () => {
+
+    const currentPath = usePathname();
+    console.log(currentPath);
+
   const links = [
     { label: "Dashboard", href: "/" },
     { label: "Saloons", href: "/saloons" },
@@ -24,7 +31,11 @@ const NavBar = () => {
         {links.map((link) => (
           <Link
             key={link.href}
-            className="text-zinc-500 hover:text-black transition-colors"
+            className={classNames({
+                'text-green-500' : link.href === currentPath,
+                'text-zinc-500' : link.href!== currentPath,
+                'hover:text-zinc-900' : true,
+            })}
             href={link.href}
           >
             {link.label}
