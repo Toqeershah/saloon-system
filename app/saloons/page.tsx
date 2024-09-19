@@ -24,7 +24,9 @@ const SaloonsPage = async () => {
           {saloons.map(saloon => (
             <Table.Row key={saloon.id}>
               <Table.Cell>
-                {saloon.title}
+                <Link href={`/saloons/${saloon.id}`}>
+                 {saloon.title}
+                </Link>
                 <div className="block md:hidden">
                   <SaloonStatusBadge status={saloon.status} />
                 </div>
