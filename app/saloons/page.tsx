@@ -3,16 +3,15 @@ import { Button, Table } from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
 import SaloonStatusBadge from "../components/SaloonStatusBadge";
+import delay from "delay";
+import SaloonActions from "./SaloonActions";
 
 const SaloonsPage = async () => {
-  const saloons = await prisma.saloon.findMany({})
+  const saloons = await prisma.saloon.findMany({});
+  await delay(2000); // simulate network latency
   return (
     <div>
-      <div className="mb-5">
-      <Button>
-        <Link href="/saloons/new">New Saloon</Link>
-      </Button>
-      </div>
+      <SaloonActions />
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
