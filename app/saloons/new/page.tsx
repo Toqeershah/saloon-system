@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createSaloonSchema } from "@/app/validationSchemas";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
+import Spinner from "@/app/components/Spinner";
 
 type SaloonForm = z.infer<typeof createSaloonSchema>;
 
@@ -28,6 +29,18 @@ const NewSaloonPage = () => {
     resolver: zodResolver(createSaloonSchema),
   });
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setIsSubmitting(true);
+      await axios.post("/api/saloons", data);
+      router.push("/saloons");
+    } catch (error) {
+      setIsSubmitting(false);
+      setError("Failed to Create Saloons");
+    }
+  });
 
   return (
     <div className="max-w-xl">
@@ -36,17 +49,7 @@ const NewSaloonPage = () => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        className="space-y-3"
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            await axios.post("/api/saloons", data);
-            router.push("/saloons");
-          } catch (error) {
-            setError("Failed to Create Saloons");
-          }
-        })}
-      >
+      <form className="space-y-3" onSubmit={onSubmit}>
         <TextField.Root>
           <TextField.Input
             placeholder="Title of Saloon"
@@ -61,9 +64,11 @@ const NewSaloonPage = () => {
             <SimpleMDE placeholder="Description of Saloon" {...field} />
           )}
         />
-        
-          <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button>Submit New Saloon</Button>
+
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
+        <Button disabled={isSubmitting}>
+          Submit New Saloon {isSubmitting && <Spinner />}
+        </Button>
       </form>
     </div>
   );
