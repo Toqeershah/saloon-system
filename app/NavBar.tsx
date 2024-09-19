@@ -18,14 +18,14 @@ const NavBar = () => {
   return (
     <nav className="flex space-x-6 border-b mb-5 px-5 h-14 items-center">
       <Link href="/">
-        <Image
+        {/* <Image
           className="rounded-full"
           src="/Assets/saloon-logo.jpeg"
           alt="logo"
           width={40}
           height={50}
-        />
-        {/* <GiSaloon /> */}
+        /> */}
+        <GiSaloon />
       </Link>
       <ul className="flex space-x-6">
         {links.map((link) => (
