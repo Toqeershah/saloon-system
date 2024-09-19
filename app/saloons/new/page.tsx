@@ -7,11 +7,11 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createSaloonSchema } from "@/app/ValidationSchemas";
+import { createSaloonSchema } from "@/app/validationSchemas";
 import { z } from "zod";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
-
-type SaloonForm = z.infer< typeof createSaloonSchema>
+type SaloonForm = z.infer<typeof createSaloonSchema>;
 
 const handleSubmit = () => {
   // Use the form data to create a new saloon in the database
@@ -19,8 +19,13 @@ const handleSubmit = () => {
 
 const NewSaloonPage = () => {
   const router = useRouter();
-  const { register, control, handleSubmit, formState: { errors } } = useForm<SaloonForm>({
-    resolver: zodResolver(createSaloonSchema)
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SaloonForm>({
+    resolver: zodResolver(createSaloonSchema),
   });
   const [error, setError] = useState("");
 
@@ -48,7 +53,7 @@ const NewSaloonPage = () => {
             {...register("title")}
           />
         </TextField.Root>
-        {errors.title && <Text color='red' as="p">{errors.title.message}</Text>}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name="description"
           control={control}
@@ -56,7 +61,8 @@ const NewSaloonPage = () => {
             <SimpleMDE placeholder="Description of Saloon" {...field} />
           )}
         />
-        {errors.description && <Text color='red' as="p">{errors.description.message}</Text>}
+        
+          <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button>Submit New Saloon</Button>
       </form>
     </div>
