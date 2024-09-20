@@ -1,14 +1,11 @@
-//single saloon detail page
+//single saloon detail page & it importing two seperate files SaloonDetails and EditSaloonButton
 
-import SaloonStatusBadge from "@/app/components/SaloonStatusBadge";
 import prisma from "@/prisma/client";
-import { Box, Button, Card, Flex, Grid, Heading, Text } from "@radix-ui/themes";
-import { notFound } from "next/navigation";
-import React from "react";
-import ReactMarkdown from "react-markdown";
+import { Box, Grid } from "@radix-ui/themes";
 import delay from "delay";
-import Link from "next/link";
-import { Pencil2Icon } from "@radix-ui/react-icons";
+import { notFound } from "next/navigation";
+import EditSaloonButton from "./EditSaloonButton";
+import SaloonDetails from "./SaloonDetails";
 
 interface Props {
   params: { id: string };
@@ -33,20 +30,10 @@ const SaloonDetailPage = async ({ params }: Props) => {
       </div>
       <Grid columns={{ initial: "1", md: "2" }} gap="5">
         <Box>
-          <Heading as="h2">{saloon.title}</Heading>
-          <Flex className="space-x-4" my="4">
-            <SaloonStatusBadge status={saloon.status} />
-            <Text>{saloon.createdAt.toDateString()}</Text>
-          </Flex>
-          <Card className="prose" mt="6">
-            <ReactMarkdown>{saloon.description}</ReactMarkdown>
-          </Card>
+          <SaloonDetails saloon={saloon} />
         </Box>
         <Box>
-          <Button>
-            <Pencil2Icon />
-            <Link href={`/saloons/${saloon.id}/edit`}>Edit Saloon</Link>
-          </Button>
+         <EditSaloonButton saloonId={saloon.id} />
         </Box>
       </Grid>
     </>
