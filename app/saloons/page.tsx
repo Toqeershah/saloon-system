@@ -1,3 +1,5 @@
+//fetching/rendering all saloons table(page)
+
 import prisma from "@/prisma/client";
 import {  Table } from "@radix-ui/themes";
 import Link from '../components/Link'

@@ -1,3 +1,5 @@
+// new saloon creation page
+
 "use client";
 import { Button, Callout, Text, TextArea, TextField } from "@radix-ui/themes";
 import SimpleMDE from "react-simplemde-editor";

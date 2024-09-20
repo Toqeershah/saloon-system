@@ -1,3 +1,5 @@
+// loading all saloons table(page)
+
 import { Table } from "@radix-ui/themes";
 import React from "react";
 import SaloonStatusBadge from "../components/SaloonStatusBadge";

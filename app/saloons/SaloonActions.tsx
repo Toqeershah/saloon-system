@@ -1,3 +1,5 @@
+// custom button for creation of new saloon
+
 import { Button } from '@radix-ui/themes'
 import Link from 'next/link'
 import React from 'react'

@@ -32,7 +32,7 @@ const NavBar = () => {
           <Link
             key={link.href}
             className={classNames({
-                'text-green-500' : link.href === currentPath,
+                'text-green-600' : link.href === currentPath,
                 'text-zinc-500' : link.href!== currentPath,
                 'hover:text-zinc-900' : true,
             })}
