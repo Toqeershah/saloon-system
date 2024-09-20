@@ -1,11 +1,7 @@
 // loading all saloons table(page)
 
+import { Skeleton } from '@/app/components';
 import { Table } from "@radix-ui/themes";
-import React from "react";
-import SaloonStatusBadge from "../components/SaloonStatusBadge";
-import prisma from "@/prisma/client";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import SaloonActions from "./SaloonActions";
 
 const LoadingSaloonsPage = async () => {

@@ -1,8 +1,7 @@
 //loading page for single saloon detail page
 
+import { Skeleton } from '@/app/components';
 import { Box, Card, Flex } from "@radix-ui/themes";
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 
 const LoadingSaloonDetailPage = () => {
   return (
