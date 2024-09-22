@@ -12,7 +12,7 @@ const SaloonDetails = ({ saloon }: { saloon: Saloon }) => {
           <SaloonStatusBadge status={saloon.status} />
           <Text>{saloon.createdAt.toDateString()}</Text>
         </Flex>
-        <Card className="prose" mt="6">
+        <Card className="prose max-w-full" mt="6">
           <ReactMarkdown>{saloon.description}</ReactMarkdown>
         </Card>
       </div>

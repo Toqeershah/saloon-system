@@ -1,11 +1,12 @@
 //single saloon detail page & it importing two seperate files SaloonDetails and EditSaloonButton
 
 import prisma from "@/prisma/client";
-import { Box, Grid } from "@radix-ui/themes";
+import { Box, Flex, Grid } from "@radix-ui/themes";
 import delay from "delay";
 import { notFound } from "next/navigation";
 import EditSaloonButton from "./EditSaloonButton";
 import SaloonDetails from "./SaloonDetails";
+import DeleteSaloonButton from "./DeleteSaloonButton";
 
 interface Props {
   params: { id: string };
@@ -28,12 +29,15 @@ const SaloonDetailPage = async ({ params }: Props) => {
           Single Saloon Detail Page
         </h2>
       </div>
-      <Grid columns={{ initial: "1", md: "2" }} gap="5">
-        <Box>
+      <Grid columns={{ initial: "1", sm: "5" }} gap="5">
+        <Box className="md:col-span-4">
           <SaloonDetails saloon={saloon} />
         </Box>
         <Box>
-         <EditSaloonButton saloonId={saloon.id} />
+          <Flex direction="column" gap='4'>
+            <EditSaloonButton saloonId={saloon.id} />
+            <DeleteSaloonButton saloonId={saloon.id} />
+          </Flex>
         </Box>
       </Grid>
     </>
