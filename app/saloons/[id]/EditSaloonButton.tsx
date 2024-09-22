@@ -7,7 +7,7 @@ const EditSaloonButton = ({saloonId}: {saloonId: number}) => {
     <div>
       <Button>
         <Pencil2Icon />
-        <Link href={`/saloons/${saloonId}/edit`}>Edit Saloon</Link>
+        <Link href={`/saloons/edit/${saloonId}`}>Edit Saloon</Link>
       </Button>
     </div>
   );

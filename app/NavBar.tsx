@@ -13,7 +13,7 @@ const NavBar = () => {
 
   const links = [
     { label: "Dashboard", href: "/" },
-    { label: "Saloons", href: "/saloons" },
+    { label: "Saloons", href: "/saloons/list" },
   ];
   return (
     <nav className="flex space-x-6 border-b mb-5 px-5 h-14 items-center">

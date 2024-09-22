@@ -14,7 +14,7 @@ const DeleteSaloonButton = ({ saloonId }: { saloonId: number }) => {
     try {
       setIsDeleting(true);
       await axios.delete("/api/saloons/" + saloonId);
-      router.push("/saloons");
+      router.push("/saloons/list");
       router.refresh();
     } catch (error) {
       setIsDeleting(false);

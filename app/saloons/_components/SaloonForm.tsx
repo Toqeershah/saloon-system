@@ -43,7 +43,7 @@ const SaloonForm = ({ saloon }: { saloon?: Saloon }) => {
         // if we have a saloon then update it otherwise create new
         await axios.patch("/api/saloons/" + saloon.id, data);
       else await axios.post("/api/saloons", data);
-      router.push("/saloons");
+      router.push("/saloons/list");
     } catch (error) {
       setIsSubmitting(false);
       setError("Failed to Create Saloons");

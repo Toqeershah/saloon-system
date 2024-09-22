@@ -20,7 +20,7 @@ const SaloonDetailPage = async ({ params }: Props) => {
   });
 
   if (!saloon) notFound();
-  await delay(2000);
+  await delay(1000);
 
   return (
     <>
