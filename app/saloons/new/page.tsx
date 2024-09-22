@@ -83,15 +83,23 @@
 
 // export default NewSaloonPage;
 
-import React from 'react'
-import SaloonForm from '../_components/SaloonForm'
+import dynamic from "next/dynamic";
+import SaloonFormSkeleton from "./loading";
+
+const SaloonForm = dynamic(
+  () => import("@/app/saloons/_components/SaloonForm"),
+  { ssr: false,
+    loading: () => <SaloonFormSkeleton />
+   }
+  
+);
 
 const NewSaloonPage = () => {
   return (
     <div>
       <SaloonForm />
     </div>
-  )
-}
+  );
+};
 
-export default NewSaloonPage
+export default NewSaloonPage;
