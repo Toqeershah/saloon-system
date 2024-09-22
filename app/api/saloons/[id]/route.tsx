@@ -30,3 +30,21 @@ export async function PATCH(
 
   return NextResponse.json(updatedSaloon, { status: 200 });
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const saloon = await prisma.saloon.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+
+  if (!saloon)
+    return NextResponse.json({ error: "Invalid saloon deletion" }, { status: 404 });
+
+  await prisma.saloon.delete({
+    where: { id: saloon.id },
+  });
+
+  return NextResponse.json({})
+}
