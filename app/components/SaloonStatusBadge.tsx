@@ -12,7 +12,7 @@ const statusMap: Record<
 > = {
   OPEN: { label: "Open", color: "green" },
   CLOSED: { label: "Closed", color: "red" },
-  IN_PROGRESS: { label: "In Progress", color: "violet" },
+  SHORT_BREAK: { label: "Short Break", color: "violet" },
 };
 
 const SaloonStatusBadge = ({ status }: { status: Status }) => {

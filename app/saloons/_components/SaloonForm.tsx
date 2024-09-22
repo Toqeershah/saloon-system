@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 // import SimpleMDE from "react-simplemde-editor";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-import { createSaloonSchema } from "@/app/validationSchemas";
+import { saloonSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
@@ -18,11 +18,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
 
-type SaloonFormData = z.infer<typeof createSaloonSchema>;
-
-interface Props {
-  saloon?: Saloon
-}
+type SaloonFormData = z.infer<typeof saloonSchema>;
 
 const handleSubmit = () => {
   // Use the form data to create a new saloon in the database
@@ -36,7 +32,7 @@ const SaloonForm = ({saloon}: {saloon?: Saloon }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<SaloonFormData>({
-    resolver: zodResolver(createSaloonSchema),
+    resolver: zodResolver(saloonSchema),
   });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);

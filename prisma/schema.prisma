@@ -22,5 +22,5 @@ model Saloon {
 enum Status {
   OPEN
   CLOSED
-  IN_PROGRESS
+  SHORT_BREAK
 }
