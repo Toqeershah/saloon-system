@@ -2,42 +2,68 @@
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-
-
-// const deleteSaloon = 
+import { useState } from "react";
 
 const DeleteSaloonButton = ({ saloonId }: { saloonId: number }) => {
+  const router = useRouter();
+  const [error, setError] = useState(false);
 
-    const router = useRouter()
+  const deleteSaloon = async () => {
+    try {
+      await axios.delete("/api/saloons/" + saloonId);
+      router.push("/saloons");
+      router.refresh();
+    } catch (error) {
+      setError(true);
+    }
+  };
 
   return (
-    <div>
-      <AlertDialog.Root>
-        <AlertDialog.Trigger>
-          <Button color="red">Delete Saloon</Button>
-        </AlertDialog.Trigger>
-        <AlertDialog.Content>
-          <AlertDialog.Title>
-            Delete this Saloon
-          </AlertDialog.Title>
-          <AlertDialog.Description>
-            Are you Sure you want to delete Saloon? This action cannot be undone.
-          </AlertDialog.Description>
-          <Flex mt="4" gap='4'>
-            <AlertDialog.Cancel>
-                <Button variant="surface" color="gray">Cancel</Button>
-            </AlertDialog.Cancel>
-            <AlertDialog.Action>
-                <Button color="red" onClick={async () => {
-                   await axios.delete('/api/saloons/' + saloonId);
-                   router.push('/saloons');
-                   router.refresh();
-                }}>Delete Saloon</Button>
-            </AlertDialog.Action>
-          </Flex>
-        </AlertDialog.Content>
-      </AlertDialog.Root>
-    </div>
+    <>
+      <div>
+        <AlertDialog.Root>
+          <AlertDialog.Trigger>
+            <Button color="red">Delete Saloon</Button>
+          </AlertDialog.Trigger>
+          <AlertDialog.Content>
+            <AlertDialog.Title>Delete this Saloon</AlertDialog.Title>
+            <AlertDialog.Description>
+              Are you Sure you want to delete Saloon? This action cannot be
+              undone.
+            </AlertDialog.Description>
+            <Flex mt="4" gap="4">
+              <AlertDialog.Cancel>
+                <Button variant="surface" color="gray">
+                  Cancel
+                </Button>
+              </AlertDialog.Cancel>
+              <AlertDialog.Action>
+                <Button color="red" onClick={deleteSaloon}>
+                  Delete Saloon
+                </Button>
+              </AlertDialog.Action>
+            </Flex>
+          </AlertDialog.Content>
+        </AlertDialog.Root>
+        <AlertDialog.Root open={error}>
+          <AlertDialog.Content>
+            <AlertDialog.Title>Failed to Delete Saloon</AlertDialog.Title>
+            <AlertDialog.Description>
+              An error occurred while trying to delete the saloon. Please try
+              again later.
+            </AlertDialog.Description>
+            <Button
+              color="gray"
+              variant="soft"
+              mt="4"
+              onClick={() => setError(false)}
+            >
+              OK
+            </Button>
+          </AlertDialog.Content>
+        </AlertDialog.Root>
+      </div>
+    </>
   );
 };
 
