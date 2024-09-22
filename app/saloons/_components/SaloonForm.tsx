@@ -24,7 +24,7 @@ const handleSubmit = () => {
   // Use the form data to create a new saloon in the database
 };
 
-const SaloonForm = ({saloon}: {saloon?: Saloon }) => {
+const SaloonForm = ({ saloon }: { saloon?: Saloon }) => {
   const router = useRouter();
   const {
     register,
@@ -40,7 +40,10 @@ const SaloonForm = ({saloon}: {saloon?: Saloon }) => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsSubmitting(true);
-      await axios.post("/api/saloons", data);
+      if (saloon)
+        // if we have a saloon then update it otherwise create new
+        await axios.patch("/api/saloons/" + saloon.id, data);
+      else await axios.post("/api/saloons", data);
       router.push("/saloons");
     } catch (error) {
       setIsSubmitting(false);
@@ -57,7 +60,8 @@ const SaloonForm = ({saloon}: {saloon?: Saloon }) => {
       )}
       <form className="space-y-3" onSubmit={onSubmit}>
         <TextField.Root>
-          <TextField.Input defaultValue={saloon?.title}
+          <TextField.Input
+            defaultValue={saloon?.title}
             placeholder="Title of Saloon"
             {...register("title")}
           />
@@ -74,7 +78,8 @@ const SaloonForm = ({saloon}: {saloon?: Saloon }) => {
 
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button disabled={isSubmitting}>
-          Submit New Saloon {isSubmitting && <Spinner />}
+          {saloon ? "Update Saloon" : "Add New Saloon"}{" "}
+          {isSubmitting && <Spinner />}
         </Button>
       </form>
     </div>
