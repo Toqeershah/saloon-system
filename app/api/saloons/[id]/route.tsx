@@ -1,11 +1,18 @@
+import authOptions from "@/app/auth/authOptions";
 import { saloonSchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({}, { status: 401 });
+  }
+
   const body = await request.json();
   const validation = saloonSchema.safeParse(body);
 
@@ -34,16 +41,24 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({}, { status: 401 });
+  }
+
   const saloon = await prisma.saloon.findUnique({
     where: { id: parseInt(params.id) },
   });
 
   if (!saloon)
-    return NextResponse.json({ error: "Invalid saloon deletion" }, { status: 404 });
+    return NextResponse.json(
+      { error: "Invalid saloon deletion" },
+      { status: 404 }
+    );
 
   await prisma.saloon.delete({
     where: { id: saloon.id },
   });
 
-  return NextResponse.json({})
+  return NextResponse.json({});
 }

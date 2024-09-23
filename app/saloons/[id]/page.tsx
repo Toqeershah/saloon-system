@@ -7,13 +7,15 @@ import { notFound } from "next/navigation";
 import EditSaloonButton from "./EditSaloonButton";
 import SaloonDetails from "./SaloonDetails";
 import DeleteSaloonButton from "./DeleteSaloonButton";
+import { getServerSession } from "next-auth";
+import authOptions from "@/app/auth/authOptions";
 
 interface Props {
   params: { id: string };
 }
 
 const SaloonDetailPage = async ({ params }: Props) => {
-  // if (typeof params.id !== 'number') notFound();
+  const session = await getServerSession(authOptions);
 
   const saloon = await prisma.saloon.findUnique({
     where: { id: parseInt(params.id) },
@@ -33,12 +35,14 @@ const SaloonDetailPage = async ({ params }: Props) => {
         <Box className="md:col-span-4">
           <SaloonDetails saloon={saloon} />
         </Box>
-        <Box>
-          <Flex direction="column" gap='4'>
-            <EditSaloonButton saloonId={saloon.id} />
-            <DeleteSaloonButton saloonId={saloon.id} />
-          </Flex>
-        </Box>
+        {session && (
+          <Box>
+            <Flex direction="column" gap="4">
+              <EditSaloonButton saloonId={saloon.id} />
+              <DeleteSaloonButton saloonId={saloon.id} />
+            </Flex>
+          </Box>
+        )}
       </Grid>
     </>
   );
