@@ -9,6 +9,7 @@ import SaloonDetails from "./SaloonDetails";
 import DeleteSaloonButton from "./DeleteSaloonButton";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
+import AssigneeSelect from "./AssigneeSelect";
 
 interface Props {
   params: { id: string };
@@ -38,6 +39,7 @@ const SaloonDetailPage = async ({ params }: Props) => {
         {session && (
           <Box>
             <Flex direction="column" gap="4">
+              <AssigneeSelect />
               <EditSaloonButton saloonId={saloon.id} />
               <DeleteSaloonButton saloonId={saloon.id} />
             </Flex>
