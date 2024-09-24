@@ -10,10 +10,11 @@ import NextLink from "next/link";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
 
 interface Props {
-  searchParams: { status: Status, orderBy: keyof Saloon };
+  searchParams: { status: Status; orderBy: keyof Saloon };
 }
 
 const SaloonsPage = async ({ searchParams }: Props) => {
+
   const columns: { label: string; value: keyof Saloon; className?: string }[] =
     [
       { label: "Saloon", value: "title" },
@@ -26,13 +27,17 @@ const SaloonsPage = async ({ searchParams }: Props) => {
     ];
 
   const statuses = Object.values(Status);
-  console.log(statuses);
+
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
     : undefined;
 
+    const orderBy = columns.map((column) => column.value).includes(searchParams.orderBy) ? { [searchParams.orderBy]: 'asc' }
+    : undefined;
+
   const saloons = await prisma.saloon.findMany({
     where: { status },
+    orderBy
   });
   await delay(1000);
 
@@ -51,7 +56,9 @@ const SaloonsPage = async ({ searchParams }: Props) => {
                 >
                   {column.label}
                 </NextLink>
-                {column.value === searchParams.orderBy && <ArrowUpIcon className="inline" />}
+                {column.value === searchParams.orderBy && (
+                  <ArrowUpIcon className="inline" />
+                )}
               </Table.ColumnHeaderCell>
             ))}
           </Table.Row>
