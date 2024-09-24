@@ -1,3 +1,64 @@
+// "use client";
+
+// import { Skeleton } from "@/app/components";
+// import { Saloon, User } from "@prisma/client";
+// import { Select } from "@radix-ui/themes";
+// import { useQuery } from "@tanstack/react-query";
+// import axios from "axios";
+// import toast, { Toaster } from "react-hot-toast";
+
+// const AssigneeSelect = ({ saloon }: { saloon: Saloon }) => {
+//   const {
+//     data: users,
+//     error,
+//     isLoading,
+//   } = useQuery<User[]>({
+//     queryKey: ["users"],
+//     queryFn: () => axios.get("/api/users").then((res) => res.data),
+//     staleTime: 60 * 1000,
+//     retry: 3,
+//   });
+
+//   if (isLoading) return <Skeleton />;
+
+//   if (error) return null;
+
+//   return (
+//     <>
+//       <Select.Root
+//         defaultValue={saloon.assignedToUserId || ""}
+//         onValueChange={async (userId) => {
+//           try {
+//             await axios.patch("/api/saloons/" + saloon.id, {
+//               assignedToUserId: userId || null,
+//             });
+//             toast.success("Saloon has been assigned Successfully!");
+//           } catch (error) {
+//             toast.error("Changes could'nt saved about assignee");
+//             console.error(error);
+//           }
+//         }}
+//       >
+//         <Select.Trigger />
+//         <Select.Content>
+//           <Select.Group>
+//             <Select.Label>Suggestions</Select.Label>
+//             <Select.Item value="">Unassign</Select.Item>
+//             {users?.map((user) => (
+//               <Select.Item key={user.id} value={user.id}>
+//                 {user.name}
+//               </Select.Item>
+//             ))}
+//           </Select.Group>
+//         </Select.Content>
+//       </Select.Root>
+//       <Toaster />
+//     </>
+//   );
+// };
+
+// export default AssigneeSelect;
+
 "use client";
 
 import { Skeleton } from "@/app/components";
@@ -8,42 +69,37 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
 const AssigneeSelect = ({ saloon }: { saloon: Saloon }) => {
-  const {
-    data: users,
-    error,
-    isLoading,
-  } = useQuery<User[]>({
-    queryKey: ["users"],
-    queryFn: () => axios.get("/api/users").then((res) => res.data),
-    staleTime: 60 * 1000,
-    retry: 3,
-  });
+  const { data: users, error, isLoading } = useUsers();
 
   if (isLoading) return <Skeleton />;
 
   if (error) return null;
 
+  const assignIssue = (userId: string) => {
+    axios
+  .patch("/api/saloons/" + saloon.id, {
+    assignedToUserId: userId || null,
+  })
+  .then(() => {
+    toast.success("Changes saved successfully!",);
+  })
+  .catch(() => {
+    toast.error("Changes couldn't be saved about assignee", );
+  });
+
+  };
+
   return (
     <>
       <Select.Root
         defaultValue={saloon.assignedToUserId || ""}
-        onValueChange={async (userId) => {
-          try {
-            await axios.patch("/api/saloons/" + saloon.id, {
-              assignedToUserId: userId || null,
-            });
-            toast.success("Saloon has been assigned Successfully!");
-          } catch (error) {
-            toast.error("Changes could'nt saved about assignee");
-            console.error(error);
-          }
-        }}
+        onValueChange={assignIssue}
       >
         <Select.Trigger />
         <Select.Content>
           <Select.Group>
             <Select.Label>Suggestions</Select.Label>
-            <Select.Item value="">Unassign</Select.Item>
+            <Select.Item value="">Unassigned</Select.Item>
             {users?.map((user) => (
               <Select.Item key={user.id} value={user.id}>
                 {user.name}
@@ -57,56 +113,13 @@ const AssigneeSelect = ({ saloon }: { saloon: Saloon }) => {
   );
 };
 
+const useUsers = () =>
+  useQuery<User[]>({
+    queryKey: ["users"],
+    queryFn: () =>
+      axios.get("/api/users").then((res) => res.data),
+    staleTime: 60 * 1000, //60s
+    retry: 3,
+  });
+
 export default AssigneeSelect;
-
-// "use client";
-
-// import { User } from "@prisma/client";
-// import { Select } from "@radix-ui/themes";
-// import { useQuery } from "@tanstack/react-query";
-// import axios from "axios";
-// import React from "react";
-
-// const AssigneeSelect = () => {
-//   // Fetch the list of users using useQuery
-//   const { data: users, isLoading, isError } = useQuery<User[]>({
-//     queryKey: ["users"],
-//     queryFn: async () => {
-//       const res = await axios.get("/api/users");
-//       return res.data;
-//     },
-//   });
-
-//   // Handle loading state
-//   if (isLoading) {
-//     return <p>Loading users...</p>;
-//   }
-
-//   // Handle error state
-//   if (isError) {
-//     return <p>Failed to load users. Please try again.</p>;
-//   }
-
-//   // Check if we received any users
-//   if (!users || users.length === 0) {
-//     return <p>No users found</p>;
-//   }
-
-//   return (
-//     <Select.Root>
-//       <Select.Trigger aria-label="Users" />
-//       <Select.Content>
-//         <Select.Group>
-//           <Select.Label>Suggestions</Select.Label>
-//           {users?.map((user) => (
-//             <Select.Item key={user.id} value={user.id}>
-//               {user.name}
-//             </Select.Item>
-//           ))}
-//         </Select.Group>
-//       </Select.Content>
-//     </Select.Root>
-//   );
-// };
-
-// export default AssigneeSelect;
