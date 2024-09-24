@@ -1,11 +1,11 @@
 "use client";
 
+import { Skeleton } from "@/app/components";
 import { Saloon, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { use, useEffect, useState } from "react";
-import { Skeleton } from "@/app/components";
+import toast, { Toaster } from "react-hot-toast";
 
 const AssigneeSelect = ({ saloon }: { saloon: Saloon }) => {
   const {
@@ -27,10 +27,16 @@ const AssigneeSelect = ({ saloon }: { saloon: Saloon }) => {
     <>
       <Select.Root
         defaultValue={saloon.assignedToUserId || ""}
-        onValueChange={(userId) => {
-          axios.patch("/api/saloons/" + saloon.id, {
-            assignedToUserId: userId || null,
-          });
+        onValueChange={async (userId) => {
+          try {
+            await axios.patch("/api/saloons/" + saloon.id, {
+              assignedToUserId: userId || null,
+            });
+            toast.success("Saloon has been assigned Successfully!");
+          } catch (error) {
+            toast.error("Changes could'nt saved about assignee");
+            console.error(error);
+          }
         }}
       >
         <Select.Trigger />
@@ -46,6 +52,7 @@ const AssigneeSelect = ({ saloon }: { saloon: Saloon }) => {
           </Select.Group>
         </Select.Content>
       </Select.Root>
+      <Toaster />
     </>
   );
 };
