@@ -7,7 +7,7 @@ import SaloonStatusFilter from './SaloonStatusFilter'
 
 const SaloonActions = () => {
   return (
-    <Flex mb="5" justify='between'>
+    <Flex justify='between'>
       <SaloonStatusFilter />
       <Button>
         <Link href="/saloons/new">New Saloon</Link>
