@@ -11,12 +11,14 @@ datasource db {
 }
 
 model Saloon {
-  id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(255)
-  description String   @db.Text
-  status      Status   @default(OPEN)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               Int      @id @default(autoincrement())
+  title            String   @db.VarChar(255)
+  description      String   @db.Text
+  status           Status   @default(OPEN)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  assignedToUserId String?  @db.VarChar(255)
+  assignedToUser   User?    @relation(fields: [assignedToUserId], references: [id])
 }
 
 enum Status {
@@ -24,7 +26,6 @@ enum Status {
   CLOSED
   SHORT_BREAK
 }
-
 
 model Account {
   id                String  @id @default(cuid())
@@ -54,14 +55,14 @@ model Session {
 }
 
 model User {
-  id             String    @id @default(cuid())
-  name           String?
-  email          String?   @unique
-  emailVerified  DateTime?
-  image          String?
-  accounts       Account[]
-  sessions       Session[]
-  
+  id              String    @id @default(cuid())
+  name            String?
+  email           String?   @unique
+  emailVerified   DateTime?
+  image           String?
+  accounts        Account[]
+  sessions        Session[]
+  assignedSaloons Saloon[]
 }
 
 model VerificationToken {
