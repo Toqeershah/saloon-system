@@ -1,5 +1,5 @@
 import authOptions from "@/app/auth/authOptions";
-import { saloonSchema } from "@/app/validationSchemas";
+import { patchSaloonSchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -14,10 +14,25 @@ export async function PATCH(
   }
 
   const body = await request.json();
-  const validation = saloonSchema.safeParse(body);
+  const validation = patchSaloonSchema.safeParse(body);
 
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 });
+
+  //assigned to user id
+  const { assignedToUserId, title, description } = body;
+
+  if (assignedToUserId) {
+    const user = await prisma.user.findUnique({
+      where: { id: assignedToUserId },
+    });
+    if (!user) {
+      return NextResponse.json(
+        { error: "Invalid user about assigned to user id" },
+        { status: 400 }
+      );
+    }
+  }
 
   const saloon = await prisma.saloon.findUnique({
     where: { id: parseInt(params.id) },
@@ -29,8 +44,9 @@ export async function PATCH(
   const updatedSaloon = await prisma.saloon.update({
     where: { id: saloon.id },
     data: {
-      title: body.title,
-      description: body.description,
+      title,
+      description,
+      assignedToUserId,
     },
   });
 
