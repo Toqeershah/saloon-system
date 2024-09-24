@@ -6,8 +6,9 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Container, Theme, ThemePanel } from "@radix-ui/themes";
 import NavBar from "./NavBar";
-import Image from "next/image";
 import AuthProvider from "./auth/Provider";
+// import { QueryClientProvider } from "@tanstack/react-query";
+import QueryClientProvider from "./QueryClientProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -38,16 +39,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.variable}>
-        <AuthProvider>
-          {/*ye body tag ka part hy className={`${geistSans.variable} ${geistMono.variable} antialiased`} */}
-          <Theme appearance="light" accentColor="violet">
-            <NavBar />
-            <main className="p-5">
-              <Container>{children}</Container>
-            </main>
-            {/* <ThemePanel /> */}
-          </Theme>
-        </AuthProvider>
+        <QueryClientProvider>
+          <AuthProvider>
+            {/*ye body tag ka part hy className={`${geistSans.variable} ${geistMono.variable} antialiased`} */}
+            <Theme appearance="light" accentColor="violet">
+              <NavBar />
+              <main className="p-5">
+                <Container>{children}</Container>
+              </main>
+              {/* <ThemePanel /> */}
+            </Theme>
+          </AuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
