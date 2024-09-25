@@ -2,29 +2,15 @@ import { Container, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import localFont from "next/font/local";
 import NavBar from "./NavBar";
 import AuthProvider from "./auth/Provider";
 import "./globals.css";
 import "./theme-config.css";
-// import { QueryClientProvider } from "@tanstack/react-query";
 import QueryClientProvider from "./QueryClientProvider";
-// import { Metadata } from 'next';
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-});
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
 });
 
 export const metadata: Metadata = {
@@ -47,8 +33,6 @@ export default function RootLayout({
               <main className="p-5">
                 <Container>{children}</Container>
               </main>
-              {/* <Footer /> */}
-              {/* <ThemePanel /> */}
             </Theme>
           </AuthProvider>
         </QueryClientProvider>

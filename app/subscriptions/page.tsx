@@ -2,7 +2,7 @@ import React from 'react'
 
 const SubscriptionsPage = () => {
   return (
-    <div>This page will be used for user's monthly/yearly Subscriptions</div>
+    <div>This page will be used for users monthly/yearly Subscriptions</div>
   )
 }
 
