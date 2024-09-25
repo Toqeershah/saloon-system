@@ -134,7 +134,7 @@ const SaloonForm = ({ saloon }: { saloon?: Saloon }) => {
   } = useForm<SaloonFormData>({
     resolver: zodResolver(saloonSchema),
   });
-  
+
   const [error, setError] = useState(""); // Define error state
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -150,7 +150,6 @@ const SaloonForm = ({ saloon }: { saloon?: Saloon }) => {
       }
       router.push("/saloons/list");
     } catch (error) {
-      setIsSubmitting(false);
       setError("Failed to Create/Update Saloon"); // Set the error message
       toast.error("Failed to Create/Update Saloon");
     } finally {

@@ -88,7 +88,7 @@ import toast from "react-hot-toast";
 
 const DeleteSaloonButton = ({ saloonId }: { saloonId: number }) => {
   const router = useRouter();
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(""); // Changed to string
   const [isDeleting, setIsDeleting] = useState(false);
 
   const deleteSaloon = async () => {
@@ -100,61 +100,63 @@ const DeleteSaloonButton = ({ saloonId }: { saloonId: number }) => {
       router.refresh();
     } catch (error) {
       setIsDeleting(false);
-      setError(true);
+      setError("Failed to delete saloon. Please try again."); // Set a meaningful error message
+      toast.error("Failed to delete saloon."); // Show toast notification for error
+    } finally {
+      setIsDeleting(false); // Ensure to reset deleting state in finally
     }
   };
 
   return (
-    <>
-      <div>
-        <AlertDialog.Root>
-          <AlertDialog.Trigger>
-            <Button color="red" disabled={isDeleting}>
-              Delete Saloon
-              {isDeleting && <Spinner />}
-            </Button>
-          </AlertDialog.Trigger>
-          <AlertDialog.Content>
-            <AlertDialog.Title>Delete this Saloon</AlertDialog.Title>
-            <AlertDialog.Description>
-              Are you sure you want to delete this Saloon? This action cannot be
-              undone.
-            </AlertDialog.Description>
-            <Flex mt="4" gap="4">
-              <AlertDialog.Cancel>
-                <Button variant="surface" color="gray">
-                  Cancel
-                </Button>
-              </AlertDialog.Cancel>
-              <AlertDialog.Action>
-                <Button color="red" onClick={deleteSaloon}>
-                  Delete Saloon
-                </Button>
-              </AlertDialog.Action>
-            </Flex>
-          </AlertDialog.Content>
-        </AlertDialog.Root>
+    <div>
+      <AlertDialog.Root>
+        <AlertDialog.Trigger>
+          <Button color="red" disabled={isDeleting}>
+            Delete Saloon
+            {isDeleting && <Spinner />}
+          </Button>
+        </AlertDialog.Trigger>
+        <AlertDialog.Content>
+          <AlertDialog.Title>Delete this Saloon</AlertDialog.Title>
+          <AlertDialog.Description>
+            Are you sure you want to delete this Saloon? This action cannot be
+            undone.
+          </AlertDialog.Description>
+          <Flex mt="4" gap="4">
+            <AlertDialog.Cancel>
+              <Button variant="surface" color="gray">
+                Cancel
+              </Button>
+            </AlertDialog.Cancel>
+            <AlertDialog.Action>
+              <Button color="red" onClick={deleteSaloon}>
+                Delete Saloon
+              </Button>
+            </AlertDialog.Action>
+          </Flex>
+        </AlertDialog.Content>
+      </AlertDialog.Root>
 
-        {/* Error dialog */}
-        <AlertDialog.Root open={error}>
+      {/* Error dialog */}
+      {error && ( // Conditionally render the error dialog
+        <AlertDialog.Root open={!!error} onOpenChange={() => setError("")}>
           <AlertDialog.Content>
             <AlertDialog.Title>Failed to Delete Saloon</AlertDialog.Title>
             <AlertDialog.Description>
-              An error occurred while trying to delete the saloon. Please try
-              again later.
+              {error}
             </AlertDialog.Description>
             <Button
               color="gray"
               variant="soft"
               mt="4"
-              onClick={() => setError(false)}
+              onClick={() => setError("")}
             >
               OK
             </Button>
           </AlertDialog.Content>
         </AlertDialog.Root>
-      </div>
-    </>
+      )}
+    </div>
   );
 };
 
