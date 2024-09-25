@@ -10,8 +10,10 @@ import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import SimpleMDE from "react-simplemde-editor";
 import { z } from "zod";
+
 
 // const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 //   ssr: false,
@@ -39,15 +41,34 @@ const SaloonForm = ({ saloon }: { saloon?: Saloon }) => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsSubmitting(true);
-      if (saloon)
+  
+      if (saloon) {
         // if we have a saloon then update it otherwise create new
         await axios.patch("/api/saloons/" + saloon.id, data);
-      else await axios.post("/api/saloons", data);
+        toast.success("Saloon updated successfully!");
+      } else {
+        await axios.post("/api/saloons", data);
+        toast.success("Saloon created successfully!");
+      }
+  
       router.push("/saloons/list");
     } catch (error) {
       setIsSubmitting(false);
       setError("Failed to Create Saloons");
+      toast.error("Failed to Create/Update Saloon");
     }
+    // try {
+    //   setIsSubmitting(true);
+    //   if (saloon)
+    //     // if we have a saloon then update it otherwise create new
+    //     await axios.patch("/api/saloons/" + saloon.id, data);
+    //   else await axios.post("/api/saloons", data);
+    //   router.push("/saloons/list");
+    // } catch (error) {
+    //   setIsSubmitting(false);
+    //   setError("Failed to Create Saloons");
+    //   toast.error("Failed to Create/Update Saloon");
+    // }
   });
 
   return (

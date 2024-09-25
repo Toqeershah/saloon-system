@@ -4,6 +4,7 @@ import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const DeleteSaloonButton = ({ saloonId }: { saloonId: number }) => {
   const router = useRouter();
@@ -14,6 +15,7 @@ const DeleteSaloonButton = ({ saloonId }: { saloonId: number }) => {
     try {
       setIsDeleting(true);
       await axios.delete("/api/saloons/" + saloonId);
+      toast.success("Saloon has been deleted Successfully!");
       router.push("/saloons/list");
       router.refresh();
     } catch (error) {

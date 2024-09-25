@@ -9,6 +9,8 @@ import NavBar from "./NavBar";
 import AuthProvider from "./auth/Provider";
 // import { QueryClientProvider } from "@tanstack/react-query";
 import QueryClientProvider from "./QueryClientProvider";
+import Footer from "./Footer";
+// import { Metadata } from 'next';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -41,12 +43,12 @@ export default function RootLayout({
       <body className={inter.variable}>
         <QueryClientProvider>
           <AuthProvider>
-            {/*ye body tag ka part hy className={`${geistSans.variable} ${geistMono.variable} antialiased`} */}
             <Theme appearance="light" accentColor="violet">
               <NavBar />
               <main className="p-5">
                 <Container>{children}</Container>
               </main>
+              {/* <Footer /> */}
               {/* <ThemePanel /> */}
             </Theme>
           </AuthProvider>
@@ -55,3 +57,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+export const dynamic = 'force-dynamic';
