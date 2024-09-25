@@ -1,15 +1,17 @@
-import { Text } from '@radix-ui/themes'
-import React, { PropsWithChildren, ReactNode } from 'react'
+import { Text } from "@radix-ui/themes";
+import React, { PropsWithChildren, ReactNode } from "react";
 
 interface Props {
-    children: ReactNode
+  children: ReactNode;
 }
 
-const ErrorMessage = ({children}: PropsWithChildren) => {
-    if (!children) return null;
+const ErrorMessage = ({ children }: PropsWithChildren) => {
+  if (!children) return null;
   return (
-    <Text color='red' as='p'>{children}</Text>
-  )
-}
+    <Text color="red" as="p">
+      {children}
+    </Text>
+  );
+};
 
-export default ErrorMessage
+export default ErrorMessage;

@@ -21,9 +21,7 @@ import { z } from "zod";
 
 type SaloonFormData = z.infer<typeof saloonSchema>;
 
-const handleSubmit = () => {
-  // Use the form data to create a new saloon in the database
-};
+
 
 const SaloonForm = ({ saloon }: { saloon?: Saloon }) => {
   const router = useRouter();

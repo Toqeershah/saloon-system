@@ -1,15 +1,14 @@
+import { Container, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
-import "./theme-config.css";
-import localFont from "next/font/local";
-import "./globals.css";
 import { Inter } from "next/font/google";
-import { Container, Theme, ThemePanel } from "@radix-ui/themes";
+import localFont from "next/font/local";
 import NavBar from "./NavBar";
 import AuthProvider from "./auth/Provider";
+import "./globals.css";
+import "./theme-config.css";
 // import { QueryClientProvider } from "@tanstack/react-query";
 import QueryClientProvider from "./QueryClientProvider";
-import Footer from "./Footer";
 // import { Metadata } from 'next';
 
 const inter = Inter({
