@@ -1,6 +1,7 @@
 import prisma from "@/prisma/client";
 import LatestSaloons from "./LatestSaloons";
 import SaloonSummary from "./SaloonSummary";
+import SaloonChart from "./SaloonChart";
 
 export default async function Home() {
 
@@ -9,7 +10,8 @@ export default async function Home() {
   const shortBreak = await prisma.saloon.count({where: {status: 'SHORT_BREAK'}})
 
   return (
-    <SaloonSummary open={open} closed={closed} shortBreak={shortBreak} />
+    <SaloonChart open={open} closed={closed} shortBreak={shortBreak} />
+    // <SaloonSummary open={open} closed={closed} shortBreak={shortBreak} />
     // <LatestSaloons />
   );
 }
