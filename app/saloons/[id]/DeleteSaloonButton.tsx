@@ -88,7 +88,6 @@ import toast from "react-hot-toast";
 
 const DeleteSaloonButton = ({ saloonId }: { saloonId: number }) => {
   const router = useRouter();
-  const [error, setError] = useState(""); // Changed to string
   const [isDeleting, setIsDeleting] = useState(false);
 
   const deleteSaloon = async () => {
@@ -98,10 +97,9 @@ const DeleteSaloonButton = ({ saloonId }: { saloonId: number }) => {
       toast.success("Saloon has been deleted successfully!");
       router.push("/saloons/list");
       router.refresh();
-    } catch (error) {
+    } catch {
       setIsDeleting(false);
-      setError("Failed to delete saloon. Please try again."); // Set a meaningful error message
-      toast.error("Failed to delete saloon."); // Show toast notification for error
+      toast.error("Failed to delete saloon.");
     } finally {
       setIsDeleting(false); // Ensure to reset deleting state in finally
     }
@@ -136,26 +134,6 @@ const DeleteSaloonButton = ({ saloonId }: { saloonId: number }) => {
           </Flex>
         </AlertDialog.Content>
       </AlertDialog.Root>
-
-      {/* Error dialog */}
-      {error && ( // Conditionally render the error dialog
-        <AlertDialog.Root open={!!error} onOpenChange={() => setError("")}>
-          <AlertDialog.Content>
-            <AlertDialog.Title>Failed to Delete Saloon</AlertDialog.Title>
-            <AlertDialog.Description>
-              {error}
-            </AlertDialog.Description>
-            <Button
-              color="gray"
-              variant="soft"
-              mt="4"
-              onClick={() => setError("")}
-            >
-              OK
-            </Button>
-          </AlertDialog.Content>
-        </AlertDialog.Root>
-      )}
     </div>
   );
 };

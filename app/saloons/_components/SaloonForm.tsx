@@ -135,7 +135,7 @@ const SaloonForm = ({ saloon }: { saloon?: Saloon }) => {
     resolver: zodResolver(saloonSchema),
   });
 
-  const [error, setError] = useState(""); // Define error state
+  const [error, setError] = useState<string | null>(null); // Use null as the default value
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = handleSubmit(async (data) => {
@@ -153,7 +153,7 @@ const SaloonForm = ({ saloon }: { saloon?: Saloon }) => {
       setError("Failed to Create/Update Saloon"); // Set the error message
       toast.error("Failed to Create/Update Saloon");
     } finally {
-      setIsSubmitting(false); // Ensure to reset submitting state in finally
+      setIsSubmitting(false); // Ensure to reset submitting state
     }
   });
 

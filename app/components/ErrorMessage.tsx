@@ -19,7 +19,8 @@
 import { Text } from "@radix-ui/themes";
 import React, { PropsWithChildren } from "react";
 
-const ErrorMessage = ({ children }: PropsWithChildren<{}>) => {
+// Use 'Record<string, unknown>' instead of '{}'
+const ErrorMessage = ({ children }: PropsWithChildren<Record<string, unknown>>) => {
   if (!children) return null;
   return (
     <Text color="red" as="p">
